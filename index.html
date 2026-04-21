@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Install RocketLock</title>
+  <style>
+    body { font-family: -apple-system, sans-serif; background: #111827; color: #f9fafb; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+    h1 { font-size: 28px; margin-bottom: 8px; }
+    p { color: #9ca3af; margin-bottom: 32px; text-align: center; }
+    .install-btn { background: #2563eb; color: white; font-size: 18px; font-weight: 600; padding: 16px 40px; border-radius: 12px; text-decoration: none; display: inline-block; }
+    .version { color: #6b7280; font-size: 13px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>RocketLock</h1>
+  <p>Open this page on your iPhone in Safari,<br>then tap Install.</p>
+  <a class="install-btn" id="install-link" href="#">Install App</a>
+  <div class="version" id="version-info">Loading...</div>
+  <script>
+    fetch('manifest.plist?' + Date.now())
+      .then(r => r.text())
+      .then(xml => {
+        var url = encodeURIComponent(window.location.origin + window.location.pathname.replace('index.html','') + 'manifest.plist');
+        document.getElementById('install-link').href = 'itms-services://?action=download-manifest&url=' + url;
+        document.getElementById('version-info').textContent = 'Tap Install to begin';
+      })
+      .catch(() => {
+        document.getElementById('version-info').textContent = 'No build available yet';
+      });
+  </script>
+</body>
+</html>
